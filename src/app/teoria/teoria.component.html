@@ -1,0 +1,163 @@
+<body>
+    <div class="content">
+        <div class="flex-wrap">
+            <div class="sec-titulo">
+                <h1 >Teoría : Árboles binarios</h1>
+            </div>
+            
+            <div class="subtitulo">
+                <h2>Introducción</h2>
+            </div>
+            <p>Se entiende a un árbol como una estructura de datos compuesta por nodos, en la cual los mismos se encuentran
+                interrelacionados bajo relaciones de parentesco, en donde, en términos generales, la única manera de acceder a un nodo hijo es a través de su nodo padre. Es importante destacar que todos los nodos del árbol comparten un ancestro en común: El nodo raíz.
+            </p>
+            <p>
+                Los árboles binarios son una subcategoría de árboles, los cuales siguen una serie de reglas base
+                las cuales los caracterizan. Dichas reglas son:
+            </p>
+            <ul>
+                <li>Al igual que el resto de árboles, cuentan con un nodo raíz que actúa como punto de entrada para la navegación 
+                    hacia el resto de los nodos.
+                </li>
+                <li>Cada nodo del árbol pueden tener un máximo de dos hijos: un hijo izquierdo y uno derecho.</li>
+                <li>Los nodos que no poseen ningún hijo son llamados "nodos hoja" (también conocidos como Leaf nodes).</li>
+            </ul>
+
+            <p>
+                Si bien existe un gran número de árboles binarios, cada uno con sus propias reglas que expanden 
+                sobre aquellas definidas como "base". En esta herramienta se realizó un desarrollo sobre aquellos que 
+                son mas utilizados y comúnmente enseñados a la hora de abordar el tema. Los mismos son:
+            </p>
+
+            <ul>
+                <li>Binary Search Tree.</li>
+                <li>AVL(Adelson-Velsky and Landis) Tree.</li>
+                <li>Red Black Tree.</li>
+                <li>Max Heap.</li>
+                <li>Min Heap.</li>
+                <li>Treap.</li>
+            </ul>
+
+            <p>
+                Debido a que cada árbol binario cuenta con una explicación asociada en su debida sección,
+                el objetivo de este apartado consiste en desarrollar a mas detalle cierta terminología y aspectos referentes a 
+                árboles, lo cual es realizado en función de contar con un conocimiento base que permita un mejor entendimiento de la lógica 
+                detras de cada árbol desarrollado.
+            </p>
+            <div class="subtitulo">
+                <h2>Altura</h2>
+            </div>
+            <p>La altura se refiere a una medida que determina la distancia existente entre el nodo raíz y el nodo mas lejano en términos
+                de aristas a ser recorridas para llegar al mismo. En simples términos, la altura representa la longitud del camino mas largo desde la raiz hacia las hojas del árbol. En este contexto, es importante destacar que la altura del nodo raiz siempre es cero.
+            </p>
+            <div class="subtitulo">
+                <h2>Nivel</h2>
+            </div>
+            <p>Un nivel se refiere a las capas horizontales que componen la estructura jerárquica del árbol. En otras palabras, cada nivel representa a un conjunto de nodos que se encuentran a la misma distancia vertical del nodo raiz. Al igual que ocurre con el concepto de altura, la raiz se encuentra en el nivel cero.</p>
+
+            <p>La cantidad de nodos máximos que pueden existir en un nivel X incrementa exponencialmente con respecto al nivel, debido a 
+                que, por las reglas base definidas, cada nodo puede contar con un total de dos hijos, los cuales se ubican en el 
+                siguiente nivel.
+            </p>
+            <p>La fórmula a través de la cual se puede conocer la cantidad de nodos máximos que pueden ser 
+                comprendidos en un nivel en específico es la siguiente:
+            </p>
+            <ul>
+                <li>Nodos máximos en nivel = 2<sup>Nivel</sup></li>
+            </ul>
+            <p>En consecuencia, si se desea saber es la cantidad máxima de nodos que puede existir en un árbol con 
+                una cantidad de niveles igual a <strong>h</strong>, debe seguirse la siguiente fórmula:
+            </p>
+            <ul>
+                <li>Nodos máximo en árbol = &sum;<sup>h</sup>&#160;2<sup>h</sup></li>
+            </ul>
+            <div class="subtitulo">
+                <h2>Balanceabilidad</h2>
+            </div>
+            
+            <p>
+                Existe una distinción fundamental que divide a los árboles en dos categorías: aquellos que son capaces de auto equilibrarse y aquellos que no.
+            </p>
+            <p>
+                Esto nos lleva a una pregunta crucial: ¿Qué implica el autoequilibrio y por qué es de gran importancia? La respuesta radica en que, bajo condiciones ideales, los árboles binarios ofrecen un tiempo de inserción, eliminación y búsqueda de O(log<sub>2</sub> (N)), donde N denota la cantidad de nodos presentes en el árbol.
+            </p>
+            <p>
+                No obstante, sin el mecanismo de auto equilibrio, esta eficiencia no se encuentra garantizada. Si constantemente se insertaran valores mayores o menores que los ya presentes, el árbol podría degenerar en una Linked List, lo que resultaría en un tiempo de ejecución de todas las operaciones mencionadas de O(N).
+            </p>
+
+            <p>
+                Los árboles con mecanísmos de balancéo contrarrestan este problema, permitiendo que la complejidad temporal a la hora de insertar, eliminar y buscar un 
+                elemento sea de O(log<sub>2</sub>N).
+            </p>
+
+            <p>Si bien cada árbol con dicha capacidad tiene sus propias reglas y mantiene el balance a través de métodos distintos, todos
+                aquellos introducidos en la herramienta hacen uso de "rotaciones", tanto izquierdas como derechas. La diferencia principal radica en los motivos que disparan dichas rotaciones, los cuales son explicados a detalle en cada apartado.
+            </p>
+            <div class="subtitulo">
+                <h2>Rotaciones</h2>
+            </div>
+            <p>
+                Las rotaciones son el proceso a través del cual el árbol restructura las relaciones de parentesco
+                de una serie de nodos en función de balancearse. Cada árbol define sus propias reglas acerca de los momentos
+                en los cuales considera que una rotación es necesaria, pero, en todos los casos, el objetivo que se 
+                persigue es mantener una altura logarítmica con respecto a la cantidad de nodos.
+            </p>
+            <p>
+                Si bien las únicas rotaciones posibles son las rotaciones izquierdas o derechas, 
+                existen circunstancias en donde debe aplicarse más de una rotación para llevar al 
+                árbol a un estado de balance luego de realizar una operación de eliminación o inserción. 
+                El proceso para realizar una rotación es el siguiente:
+            </p>
+            <ul>
+                <li><strong>Rotación izquierda:</strong> Rotar un nodo hacia la izquierda implica que un nodo padre pasa a ser el hijo izquierdo de su hijo derecho, mientras que el hijo izquierdo original (de existir) del hijo derecho pasa a ser el hijo derecho del padre.</li>
+                <li><strong>Rotación derecha:</strong> Rotar un nodo hacia la derecha implica que un nodo padre pasa a ser el hijo derecho de su hijo izquierdo, mientras que el hijo derecho original (de existir) del hijo izquierdo pasa a ser el hijo izquierdo del padre.</li>
+            </ul>
+
+            <div class="subtitulo">
+                <h2>Recorrido del árbol</h2>
+            </div>
+            <p>"Recorrer” se refiere al proceso de visitar todos los nodos existentes en el árbol exactamente una vez, siguiendo un orden preestablecido por el algoritmo en cuestión.
+            </p>
+            <p>
+                Normalmente, al visitar el nodo se efectúa una acción en específico. Si bien, debido a la naturaleza de la estructura de datos, no hay manera de visitar un nodo hijo sin antes haber visitado al padre, lo que diferencia al InOrder, PreOrder y PostOrder (los cuales son los tres modos de recorrido característicos), es el orden a través del cual se realiza la operación deseada.
+            </p>
+            <p>La diferencia entre los mismos es la siguiente:</p>
+            <ul>
+                <li><strong>InOrder</strong> </li>
+                    <ul>
+                        <li>La función es invocada, entregando el nodo raíz como primer nodo a evaluar.</li>
+                        <li>Si el nodo a evaluar posee un hijo izquierdo, la función es invocada nuevamente, estableciendo al hijo izquierdo como nodo a evaluar.</li>
+                        <li>La operación a realizar se realiza sobre el nodo actual.</li>
+                        <li>Si el nodo a evaluar posee un hijo derecho, la función es invocada nuevamente, estableciendo al hijo derecho como nodo a evaluar.</li>
+                    </ul>
+                <li><strong>PreOrder</strong></li>
+                    <ul>
+                        <li>La función es invocada, entregando el nodo raíz como primer nodo a evaluar.</li>
+                        <li>La operación a realizar se realiza sobre el nodo actual.</li>
+                        <li>Si el nodo a evaluar posee un hijo izquierdo, la función es invocada nuevamente, estableciendo al hijo izquierdo como nodo a evaluar.</li>
+                        <li>Si el nodo a evaluar posee un hijo derecho, la función es invocada nuevamente, estableciendo al hijo derecho como nodo a evaluar.</li>
+                    </ul>
+                <li><strong>PostOrder</strong></li>
+                    <ul>
+                        <li>La función es invocada, entregando el nodo raíz como primer nodo a evaluar.</li>
+                        <li>Si el nodo a evaluar posee un hijo izquierdo, la función es invocada nuevamente, estableciendo al hijo izquierdo como nodo a evaluar.</li>
+                        <li>Si el nodo a evaluar posee un hijo derecho, la función es invocada nuevamente, estableciendo al hijo derecho como nodo a evaluar.</li>
+                        <li>La operación a realizar se realiza sobre el nodo actual.</li>
+                    </ul>
+            </ul>
+            <p>Para entenderlo a más detalle, se presenta el siguiente ejemplo, en donde la operación a realizar es la de introducir el valor del nodo sobre un array. Para ello, se establece el siguiente árbol base:</p>
+            <div class="centerflex">
+                <img class="centerimg" src="assets/arbol.png" alt="Árbol de ejemplo" width="1000" height="600"> 
+            </div>
+            <p>De ejecutar tanto el InOrder, PreOrder y PostOrder con el objetivo planteado y el árbol base que se refleja en la imagen, el resultado que se obtendría es el siguiente:
+            </p>
+            <ul>
+                <li><strong>In-Order:</strong>&#160;&#160;&#160;[41,132,154,213,235,254,338,461,494,573,608,659,664,677,742]</li>
+                <li><strong>Pre-Order:</strong>&#160;[461,213,132,41,154,254,235,338,659,573,494,608,677,664,742]</li>
+                <li><strong>Post-Order:</strong>[41,154,132,235,338,254,213,494,608,573,664,742,677,659,461]</li>
+            </ul>
+            <p>En cuanto a la complejidad temporal, debido a que todos los nodos deben ser visitados una vez, es O(N), donde N es, lógicamente, el número de nodos en el árbol.</p>
+            <div class="bmar"></div>
+        </div>
+    </div>
+</body>

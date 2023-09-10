@@ -1,0 +1,108 @@
+<div class="modal-container">
+    <div class="icon">
+        <fa-icon (click)="closeModal()" [icon]="closeButton"></fa-icon>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 0">
+        <div class="modall-content"
+             [style.height]="modalHeight-90 + 'px'"
+             [style.width]="modalWidth-40 + 'px'">
+            <h1>Introducción</h1>
+            <p>El AVL Tree es un tipo de árbol diseñado para ser estrictamente balanceado, y se introduce para solucionar la problemática de desbalance que puede ocurrir en un Binary Search Tree (BST). La característica distintiva del AVL Tree es su riguroso criterio de balance, que se mantiene en todo momento. En un AVL Tree, si la diferencia de alturas entre el hijo derecho y el hijo izquierdo de un nodo es mayor a uno, se considera que el árbol está desbalanceado y se aplican rotaciones para restaurar el balance.
+            </p>
+            <p>A diferencia del Red Black Tree, que utiliza colores y rotaciones, el AVL Tree se equilibra mediante rotaciones simples realizadas en el momento en que el factor de balance de un nodo excede ciertos límites.
+            </p>
+            <br>
+            <h1>Estructura y reglas</h1>
+            <ul>
+                <li>
+                    El árbol se encuentra compuesto por nodos.
+                </li>
+                <li>Cada nodo puede tener hasta dos hijos: un hijo derecho y un hijo izquierdo.</li>
+                <li>A lo largo de todo el árbol, se mantiene la propiedad de que todo hijo izquierdo debe tener un valor menor que su padre.</li>
+                <li>De manera consistente en todo el árbol, todo hijo derecho debe tener un valor mayor que su padre.</li>
+                <li>Los nodos que carecen de hijos se denominan nodos hoja(también conocidos como Leaf nodes).</li>
+                <li>Si el árbol no está vacío, siempre tiene un nodo raíz, también llamado root,  desde el cual se puede acceder a la totalidad del árbol.</li>
+                <li><u>Altura:</u> Cada nodo en el árbol tiene una altura que se calcula como '1+ Max(Altura(hijoIzquierdo), Altura(hijoDerecho))'.
+                    Si un hijo es nulo, su altura se considera 0.</li>
+                <li><u>Factor de balance:</u>  Es una métrica que determina si un nodo está desbalanceado. Se calcula como el resultado de la ecuación "Altura(hijoIzquierdo) -Altura(hijoDerecho)". Los tres posibles rangos para el factor de balance son:
+                    <ul>
+                        <li><u>-1 ≥ Factor Balance ≤ 1 :</u> En este caso, la diferencia de altura de los nodos se encuentra dentro del rango permitido y no es necesario realizar una rotación.</li>
+                        <li><u>Factor Balance menor a -1 :</u> En este caso, el árbol se encuentra desbalanceado hacia la derecha. El mismo ocurre cuando la altura del hijo izquierdo es menor por una diferencia de dos o mas a la del derecho.</li>
+                        <li><u>Factor Balance mayor a -1  :</u> En este caso, el árbol se encuentra desbalanceado hacia la izquierda. El mismo ocurre cuando la altura del hijo izquierdo es mayor por una diferencia de dos o mas a la del derecho.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 1">
+        <div class="modall-content"
+        [style.height]="modalHeight-90 + 'px'"
+        [style.width]="modalWidth-40 + 'px'">
+        <h1>Métodos</h1>
+            <h1>Add</h1>
+            <p>La inserción de un elemento en un AVL Tree se basa en la misma lógica que el Binary Search Tree (BST),  pero con la adición de mantener el balance del árbol utilizando el cálculo de alturas y un método llamado "balancePostAdd", el cual es invocado en cada nodo recorrido en el proceso de inserción.</p>
+
+            <h3><strong>Método balancePostAdd</strong></h3>
+            <p>Este método calcula el factor de balance sobre el nodo recibido por parámetro y efectúa las rotaciones correctivas necesarias para mantener el árbol balanceado. Los pasos que el método sigue son los siguientes:</p>
+            <ul>
+                <li>Se guarda sobre una variable el factor de balanceamiento del nodo recibido por parámetro.</li>
+                <li>En función del valor del factor de balance, se presentan los siguientes casos:
+                    <ul>
+                        <li><u>Factor de balance dentro del rango permitido:</u> En caso que el Factor de balance se encuentre dentro del rango permitido,  no se realiza ninguna operación y se retorna el nodo actual.
+                            </li>
+                        <li><u>Factor de balance mayor a 1:</u> Esto indica un desbalance hacia la izquierda. Las rotaciones a realizar dependen del valor del nodo a insertar:
+                            <ul>
+                                <li>Si el valor del nodo a insertar es menor que el hijo izquierdo del nodo actual, se realiza una rotación derecha sobre el nodo actual y se retorna el resultado.</li>
+                                <li>Si el valor del nodo a insertar es mayor que el hijo izquierdo del nodo actual, se realiza una rotación izquierda sobre el hijo izquierdo y luego una rotación derecha sobre el nodo actual. Se retorna el resultado de la rotación derecha.</li>
+                            </ul>
+                        </li>
+                        <li><u>Factor de balance menor a 1:</u> Esto indica un desbalance hacia la derecha. Las rotaciones a realizar también dependen del valor del nodo a insertar:
+                            <ul>
+                                <li>Si el valor del nodo a insertar es mayor que el hijo derecho del nodo actual, se realiza una rotación izquierda sobre el nodo actual y se retorna el resultado.</li>
+                                <li>Si el valor del nodo a insertar es menor que el hijo derecho del nodo actual, se realiza una rotación derecha sobre el hijo derecho y luego una rotación izquierda sobre el nodo actual. Se retorna el resultado de la rotación izquierda.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h1>Search</h1>
+            <p>
+                Las búsqueda de elementos sobre un AVL Tree se realiza de manera idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Find min</h1>
+            <p>
+                Las búsqueda del valor mínimo sobre un AVL Tree  se realiza de manera idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Find max</h1>
+            <p>
+                Las búsqueda del valor máximo sobre un AVL Tree se realiza de manera idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Delete</h1>
+            <p>La eliminación de un elemento en un AVL Tree se basa en la misma lógica que el Binary Search Tree (BST),  pero con la adición de mantener el balance del árbol utilizando el cálculo de alturas y un método llamado "balancePostDelete", el cual es invocado en cada nodo recorrido en el proceso de eliminación.</p>
+
+            <p>El proceso efectuado por el método "balancePostDelete" para mantener el balance del árbol es el mismo al que efectúa el método “balancePostAdd”. La única diferencia radica en que, en vez de utilizar el valor (key) del nodo a insertar, lo que se utiliza como decisor determinístico de la rotación a realizar es el factor de balanceamiento según amerite.</p>
+
+            <h1>Complejidad temporal</h1>
+            <p>Debido a que el AVL Tree es un árbol que implementa mecanismos a través de los cuales mantiene el árbol balanceado, la altura del mismo es logarítmica con respecto a la cantidad de nodos. Debido a ello, la complejidad temporal de eliminar, buscar o agregar un elemento, a pesar de las rotaciones, es O(log<sub>2</sub> (N)).
+
+            </p>
+        </div>
+    </div>
+
+    <div class="lower-modal-section">
+        <div class="hline-wrap">
+            <div class="hline"></div>
+        </div>
+        <div class="interaction-wrapper">
+            <a class="back-button"[style.visibility]="curModalTab == 0 ? 'hidden' : 'visible'"
+            (click)="goPreviousPage()">&laquo; Previous</a>
+            <a class="next-button"[style.visibility]="curModalTab == 1 ? 'hidden' : 'visible'" (click)="goNextPage()">Next &raquo;</a>       
+        </div>
+    </div>
+</div>

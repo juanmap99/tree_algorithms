@@ -1,0 +1,156 @@
+<div class="modal-container">
+    <div class="icon">
+        <fa-icon (click)="closeModal()" [icon]="closeButton"></fa-icon>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 0">
+        <div class="modall-content"
+             [style.height]="modalHeight-90 + 'px'"
+             [style.width]="modalWidth-40 + 'px'">
+            <h1>Introducción</h1>
+            <p>El Red Black Tree, también conocido como RBT, se encuentra entre las estructuras de datos más sofisticadas dentro de la categoría de árboles con la capacidad de auto equilibrarse. Esto se debe a las numerosas reglas que utiliza para mantener el balance del árbol, las cuales se encuentran ligadas a un nuevo concepto que el Red Black Tree introduce: el color de un nodo. Sin embargo, a pesar de su complejidad, es ampliamente adoptado debido a su eficiente capacidad para mantener el balance del árbol con un impacto relativamente bajo en los tiempos de ejecución de sus métodos de inserción y eliminación, en comparación con la variante de AVL Tree.</p>
+            <br/><br/>
+            <h1>Estructura y reglas</h1>
+            <p>Existe una serie de conceptos y normas que es necesario entender previo a abordar la lógica detrás de cada uno de los métodos:
+            </p>
+            <ul>
+                <li><u>Naturaleza como Binary Search Tree:</u>Debido a que el Red Black Tree es un árbol binario de búsqueda, se cumple que todo nodo tiene un máximo de dos hijos, en donde el hijo izquierdo tiene valores menores a su padre, mientras que el derecho contiene valores mayores.</li>
+                <li><u>Rotaciones Izquierdas y Derechas:</u>Al igual que el AVL Tree, el RBT incorpora rotaciones izquierdas y derechas para aplicar acciones correctivas que retornen al árbol a un estado de balance. Sin embargo, a diferencia del AVL Tree, las rotaciones no se disparan en función del cálculo del factor de balance de un nodo, ya que dicho concepto no es utilizado por el Red Black Tree.</li>
+                <li><u>Caracter distinctivo:</u>El nombre Red Black Tree se origina en la asignación de colores a los nodos, en donde cada nodo en el árbol posee un color, que puede ser rojo o negro.</li>
+                <li><u>Reglas de coloración:</u>El balance del árbol se garantiza a través de mantener una serie de reglas de manera consistente a través del mismo. Dichas reglas son:
+                <ul>
+                    <li>El nodo raíz siempre es de color negro.</li>
+                    <li>Los nodos hoja, al igual que la raíz, deben ser de color negro.</li>
+                    <li>La cantidad de nodos negros en cualquier camino desde la raíz hasta una hoja es constante en todo el árbol.</li>
+                    <li>No puede haber dos nodos rojos consecutivos. En otras palabras, un nodo rojo no puede tener hijos rojos.</li>
+                </ul>
+                </li>
+                <li><u>Altura del árbol:</u>Al mantener las reglas de coloración, se garantiza que la altura del árbol es menor o igual a Log<sub>2</sub>(n+1), donde n es la cantidad de nodos en el árbol.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 1">
+        <div class="modall-content"
+        [style.height]="modalHeight-90 + 'px'"
+        [style.width]="modalWidth-40 + 'px'">
+        <h1>Métodos</h1>
+            <h1>Add</h1>
+            <p>El primer paso implica la incorporación de un nuevo nodo en el árbol, siguiendo la lógica del Binary Search Tree (BST). La distinción principal radica en que al insertar un nodo, debemos vincularlo a su padre (excepto en el caso de la raíz, que se asocia con la representación nula elegida). Es crucial destacar que, al momento de la inserción, el color asignado al nuevo nodo es siempre rojo.</p>
+
+            <p>Existen diversas formas de determinar si un nodo es rojo o negro, y una opción viable consiste en utilizar una variable "color" de tipo entero, donde:</p>
+            <ul>
+                <li>color = 0 → Negro.</li>
+                <li>color = 1 → Rojo.</li>
+            </ul>
+
+            <p>El segundo paso aborda la verificación y corrección de posibles infracciones a las reglas del RBT que puedan haber surgido tras la inserción. Este procedimiento, crucial para mantener el balance del árbol, recibe el nodo recién agregado como parámetro y, si se identifica alguna violación, se toman medidas correctivas.</p>
+
+            <p>Primero, si el nodo recibido es la raíz, su color se cambia a negro, y el proceso concluye. A su vez, si el nodo no tiene un abuelo; es decir, es hijo directo de la raíz del árbol; se omite cualquier acción correctiva, ya que se puede garantizar que no se han violado las reglas. Este último punto se debe a que todo nodo insertado es de color rojo, y la raíz es siempre de color negro. Por otra parte, debido a que al nodo insertado se asocia con dos hijos negro nulos, se puede garantizar que la cantidad de nodos negros en cualquier camino desde la raíz hasta una hoja se mantiene constante.</p>
+
+            <p>Sin embargo, si el padre del nodo evaluado (denominado "nodoEvaluar") es rojo, se implementa el siguiente proceso de ajuste:</p>
+            <ul>
+                <li>Si el color del tío del nodoEvaluar es rojo:
+                    <ul>
+                        <li>Se modifica el color del padre y el tío del nodoEvaluar, pasando a ser de color negro. Por otra parte, el abuelo se actualiza a color rojo.</li>
+                        <li>El abuelo del nodoEvaluar se establece como el nuevo nodoEvaluar. El proceso de ajuste es repetido sobre el valor actualizado de nodoEvaluar.</li>
+                    </ul>
+                </li>
+                <li>Si el color del tio del nodoEvaluar es negro surgen dos situaciones:
+                    <ul>
+                        <li><u>Situación 1:</u>El padre del nodoEvaluar es el hijo derecho de su padre:
+                            <ul>
+                                <li>Si el nodoEvaluar es el hijo izquierdo de su padre, el padre pasa a ser el nuevo nodoEvaluar y es rotado hacia la derecha.</li>
+                                <li>El color del padre del nodoEvaluar(el cual pudo haber variado de haberse cumplido la condición previa) se actualiza a negro.</li>
+                                <li>El color del abuelo del nodoEvaluar se actualiza a rojo.</li>
+                                <li>El abuelo del nodoEvaluar es rotado hacia la izquierda.</li>
+                            </ul>
+                        </li>
+                        <li><u>Situación 2:</u>El padre del nodoEvaluar es el hijo izquierdo de su padre:
+                            <ul>
+                                <li>Si el nodoEvaluar es el hijo derecho de su padre, el padre pasa a ser el nuevo nodoEvaluar y es rotado hacia la izquierda.</li>
+                                <li>El color del padre del nodoEvaluar(el cual pudo haber variado de haberse cumplido la condición previa)  se actualiza a negro</li>
+                                <li>El color del abuelo del nodoEvaluar se actualiza a rojo.</li>
+                                <li>El abuelo del nodoEvaluar es rotado hacia la derecha.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Si el nodoEvaluar es el root del árbol, el proceso de ajuste se finaliza.</li>
+            </ul>
+            <p>Es importante destacar que, una vez finalizado el proceso de ajuste, el color de la raíz se establece en negro. Esto se debe a que existen situaciones en las que, a través del proceso de ajuste en donde se realizan recoloramientos y rotaciones, un nodo con color rojo pudo haber culminado como la raíz del árbol.</p>
+
+            <h1>Search</h1>
+            <p>
+                La búsqueda de un elemento sobre un RBT es idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Find min</h1>
+            <p>
+                La búsqueda del valor mínimo sobre un RBT es idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Find max</h1>
+            <p>
+                La búsqueda del valor máximo sobre un RBT es idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Delete</h1>
+            <p>La eliminación de un nodo en un Red Black Tree (RBT) sigue la lógica básica del Binary Search Tree (BST), con una diferencia significativa: cuando se elimina un nodo, se invoca la función "delete_fix" (que se puede encontrar en la sección del código correspondiente) para verificar si esta eliminación ha violado alguna de las reglas del árbol. En caso de que haya ocurrido alguna infracción, se toman medidas correctivas para restaurar la integridad del RBT, restaurando el árbol a un estado de balance.</p>
+
+            <p>Vale la pena destacar que el método "delete_fix" solo actúa cuando el color del nodo eliminado es negro. En el caso de que el nodo eliminado sea rojo, no es necesario realizar ninguna corrección, ya que se puede garantizar que no se ha infringido ninguna regla. La razón detrás de esto radica en que la cantidad de nodos negros en el camino desde la raíz hasta las hojas debe ser la misma para todas las hojas, y la eliminación de un nodo negro rompe esta regla.</p>
+
+            <p>En la siguiente sección se explican los diversos casos que pueden ocurrir a la hora de realizar la eliminación de un nodo con color negro, especificando las acciones correctivas que el método “delete_fix” aplica:</p>
+
+            <h3><strong>Caso uno</strong></h3>
+            <p>El caso uno surge cuando el hermano es negro y los hijos del hermano son negros. La manera que el algoritmo actúa es la siguiente:</p>
+            <ul>
+                <li>Se cambia el color del hermano de negro a rojo.</li>
+                <li>Si el padre es de color rojo, es transformado a negro y se termina la ejecución. Si el padre es negro y no es la raíz, fixPostDelete se invoca recibiendo el padre como nodo a evaluar y repitiendo la evaluación de casos.</li>
+            </ul>
+
+            <h3><strong>Caso dos</strong></h3>
+            <p>El caso dos surge cuando el hermano es rojo. La manera que el algoritmo actúa es la siguiente:</p>
+            <ul>
+                <li>El padre se transforma de color negro a rojo.(Se sabe que el padre es negro porque poseía un hijo rojo).</li>
+                <li>El hermano se actualiza de color rojo a negro.</li>
+                <li>El padre rota en dirección del nodo evaluado.</li>
+                <li>Los casos son nuevamente evaluados sobre el nodo actual.</li>
+            </ul>
+
+            <h3><strong>Caso tres</strong></h3>
+            <p>El caso tres surge cuando el hermano es negro, el hijo del hermano mas alejado al nodo evaluado es negro, pero el hijo del hermano mas cercano con respecto al nodo evaluado es rojo. En otras palabras, en el caso de que el nodo evaluado sea un nodo izquierdo, el hijo más alejado del hermano es su hijo derecho, mientras que el más cercano es el izquierdo. Por otra parte, en caso que se esté evaluando un nodo derecho, el hijo más lejano del hermano es su hijo izquierdo, mientras que el más cercano es el derecho.</p>
+
+            <p>La manera que el algoritmo actúa es la siguiente:</p>
+            <ul>
+                <li>El hermano se actualiza de color negro a rojo.</li>
+                <li>El hijo mas cercano del hermano del nodo evaluado que poseía color rojo se actualiza a negro.</li>
+                <li>El hermano gira en dirección opuesta al nodo que transformó de rojo a negro. En otras palabras, gira en dirección del nodo más lejano a su hermano.</li>
+                <li>Los casos son nuevamente evaluados sobre el nodo actual. Es relevante destacar que, debido a la rotación y recoloramiento realizado, al llamar a la función nuevamente sobre el nodo evaluado se cae sobre el Caso 4 explicado a continuación.</li>
+            </ul>
+
+            <h3><strong>Caso cuatro</strong></h3>
+            <p>El caso cuatro surge cuando el hermano es negro y el hijo mas alejado del hermano del nodo evaluado es rojo.</p>
+
+            <p>La manera que el algoritmo actúa es la siguiente:</p>
+            <ul>
+                <li>El hermano y el padre intercambian colores.</li>
+                <li>El hijo mas alejado del hermano del nodo evaluado se actualiza de color rojo a negro.</li>
+                <li>El padre gira en dirección del nodo evaluado.</li>
+            </ul>
+            <h1>Complejidad temporal</h1>
+            <p>Debido a que el Red Black Tree  es un árbol que implementa mecanismos a través de los cuales mantiene el árbol balanceado, la altura del mismo es logarítmica con respecto a la cantidad de nodos. Debido a ello, la complejidad temporal de insertar, eliminar o buscar un elemento es O(log<sub>2</sub> (N)).</p>
+        </div>
+    </div>
+
+    <div class="lower-modal-section">
+        <div class="hline-wrap">
+            <div class="hline"></div>
+        </div>
+        <div class="interaction-wrapper">
+            <a class="back-button"[style.visibility]="curModalTab == 0 ? 'hidden' : 'visible'"
+            (click)="goPreviousPage()">&laquo; Previous</a>
+            <a class="next-button"[style.visibility]="curModalTab == 1 ? 'hidden' : 'visible'" (click)="goNextPage()">Next &raquo;</a>       
+        </div>
+    </div>
+</div>

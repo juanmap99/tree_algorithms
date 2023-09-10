@@ -1,0 +1,157 @@
+<div class="modal-container">
+    <div class="icon">
+        <fa-icon (click)="closeModal()" [icon]="closeButton"></fa-icon>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 0">
+        <div class="modall-content"
+             [style.height]="modalHeight-90 + 'px'"
+             [style.width]="modalWidth-40 + 'px'">
+            <h1>Introducción</h1>
+            <p>Las Max Heap son un tipo de árbol diseñado especialmente para garantizar la obtención del elemento máximo en tiempo constante, es decir, con una complejidad temporal de O(1).
+            </p>
+            <p>
+                Cabe destacar que las mismas suelen ser representadas por un array, en vez de un árbol, ya que 
+                facilita en gran medida las operaciones y presenta una ventaja a nivel espacial.
+                Sin embargo, debido a que el objetivo actual consiste en visualizar el funcionamiento del 
+                algoritmo bajo una estructura de árbol, debido a la facilidad que presenta bajo este formato, se optó por el uso de un árbol.
+            </p>
+            <br>
+            <h1>Estructura y reglas</h1>
+            <p>Existen una serie de reglas distintivas que diferencian las Max Heap de los árboles binarios diseñados principalmente para operaciones de búsqueda. Estas reglas son las siguientes:
+            </p>
+            <ul>
+                <li>Cada nodo padre debe tener un valor mayor que sus nodos hijos, una restricción que debe mantenerse constantemente en toda la estructura del árbol.</li>
+                <li>Para mantener el equilibrio en el árbol y crear un Árbol Binario Completo, la inserción de nodos se realiza secuencialmente de izquierda a derecha en el último nivel disponible. Esto implica que los valores se introducen en un "nivel n" solo si el nivel "n-1" está completamente ocupado.</li>
+                <li>Tanto al agregar como al eliminar elementos, es fundamental respetar estrictamente las reglas del árbol. Cualquier violación requiere acciones correctivas necesarias, llevadas a cabo mediante procesos conocidos como "Bubble Down" y "Bubble Up".</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 1">
+        <div class="modall-content"
+        [style.height]="modalHeight-90 + 'px'"
+        [style.width]="modalWidth-40 + 'px'">
+        <h1>Métodos</h1>
+            <h1>Add</h1>
+            <p>La lógica del método Add es la siguiente:</p>
+            <ul>
+                <li>Se obtiene el "indexPath" del nodo que se va a agregar como se explicó anteriormente.</li>
+                <li>Se inicia la búsqueda de la posición adecuada a partir de la raíz. En cada paso:
+                    <ul>
+                        <li>Se extrae un elemento a través de un pop del "indexPath" para determinar la dirección a seguir. La acción a realizar depende del estado del "indexPath" después de extraer un elemento.</li>
+                        <li><u>Caso 1 - indexPath no está vacío:</u> Si el "indexPath" no está vacío después de extraer un índice, significa que aún no se ha alcanzado el destino. En este caso:
+                            <ul>
+                                <li>Si el valor extraído es par, se llama a la función de manera recursiva con el hijo derecho como el próximo nodo a evaluar.</li>
+                                <li>Si el valor extraído es impar, se llama a la función de manera recursiva con el hijo izquierdo como el próximo nodo a evaluar.</li>
+                            </ul>
+                        </li>
+
+                        <li><u>Caso 2 - indexPath está vacío:</u>Si el "indexPath" está vacío después de extraer un índice, significa que se ha llegado al destino. En este caso:
+                            <ul>
+                                <li>Si el valor extraído es par, se inserta el nuevo nodo como hijo derecho del nodo que se está evaluando en ese momento.</li>
+                                <li>Si el valor extraído es impar, se inserta el nuevo nodo como hijo izquierdo del nodo que se está evaluando en ese momento.</li>
+                                <li>Se realiza un Bubble up en función de “burbujear” el elemento agregado hacia la ubicación requerida para mantener la integridad de la Max Heap.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h1>Complejidad temporal - Método Add</h1>
+            <p>Debido a que la Max Heap es un árbol binario completo, la altura del árbol escala de manera logarítmica con respecto a la cantidad de nodos. Debido a ello, puede garantizarse que la complejidad temporal de agregar un elemento es O(log<sub>2</sub> (N)), donde N representa la cantidad de nodos en el árbol.</p>
+
+            <h1>Search</h1>
+            <p>La lógica de búsqueda de un elemento se realiza de manera iterativa a través de una Queue. Los pasos a seguir son los siguientes:</p>
+            <ul>
+                <li>Se inicializa una Queue con la raíz como único valor.</li>
+                <li>Se inicia un ciclo while que continúa siempre y cuando la Queue no esté vacía. Dentro del ciclo:
+                    <ul>
+                        <li>Se desencola un valor de la Queue y se lo guarda en una variable.</li>
+                        <li>Si el valor del nodo desencolado es igual al valor buscado, se ha encontrado el valor buscado y se finaliza la ejecución.</li>
+                        <li>En caso contrario, se realizan los siguientes dos pasos:
+                            <ul>
+                                <li>Si existe un hijo derecho y su valor es mayor o igual al valor buscado, se encola. El motivo por el cual no se agrega si su valor es menor es porque, según las reglas definidas por la Max heap, todos los valores debajo de él también serán menores, y se tiene la certeza de que el elemento buscado no se encontrará allí.</li>
+                                <li>Si existe un hijo izquierdo y su valor es mayor o igual al valor buscado, se encola. El motivo por el cual no se agrega si su valor es menor es porque, según las reglas definidas por la Max heap, todos los valores debajo de él también serán menores, y se tiene la certeza de que el elemento buscado no se encontrará allí.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h1>Complejidad temporal - Método Search</h1>
+            <p>Si bien la Max Heap cuenta con una altura que escala de manera logarítmica con respecto a la cantidad de nodos en el árbol, en el peor de los casos,  la complejidad temporal de buscar un elemento es igual a O(n), debido a que, en el peor de los casos, resulta necesario recorrer todos los nodos del árbol.</p>
+            <p>Esto ocurre debido a que, a diferencia de los árboles de búsqueda, no hay garantía de orden entre los nodos de un mismo nivel, lo que torna necesario explorar todos los nodos en función de buscar un elemento en específico. El peor de los casos ocurre cuando el elemento a buscar tiene un valor más pequeño que todos los nodos ubicados en el anteúltimo nivel, ya que implicará que la totalidad de nodos en el árbol deban ser recorridos.</p>
+
+            <h1>Find min</h1>
+            <p>La lógica de búsqueda del elemento mínimo se realiza de manera iterativa a través de una Queue. Los pasos a seguir son los siguientes:</p>
+            <ul>
+                <li>La Queue se inicializa con el nodo raíz como único valor.</li>
+                <li>Se inicializa una variable que guardará el valor mínimo encontrado. Inicialmente, esta variable toma el valor del nodo raíz.</li>
+                <li>Se inicia un ciclo while que continúa mientras la Queue no este vacía. Dentro del ciclo:
+                    <ul>
+                        <li>Se desencola un nodo de la Queue y se lo almacena en una variable temporal.</li>
+                        <li>Se verifica si el valor del nodo desencolado es menor que el valor mínimo encontrado. Si es así, se actualiza el valor mínimo con el valor del nodo desencolado.</li>
+                        <li>Luego, se realizan los siguientes dos pasos:
+                            <ul>
+                                <li>Si el nodo desencolado tiene un hijo derecho, se lo encola a la Queue.</li>
+                                <li>Si el nodo desencolado tiene un hijo izquierdo, se lo encola a la Queue.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h1>Complejidad temporal - Método Find min</h1>
+            <p>Debido a las propiedades intrínsecas de la Max heap, el nodo con un valor mínimo se encuentra ubicado en uno de los nodos hojas. Ya que para llegar a los mismos se requiere recorrer todos los nodos de las capas superiores, la complejidad temporal de encontrar el valor mínimo es O(N), donde N representa la cantidad de nodos en el árbol.</p>
+            
+            <h1>Find max</h1>
+            <p>Debido a las propiedades de la Max heap, el nodo con valor máximo es el nodo raíz. Debido a ello, obtener el valor máximo implica simplemente retornar el valor del nodo raíz.</p>
+            
+            <h1>Complejidad temporal - Método Find max</h1>
+            <p>Debido a que se se puede obtener el valor de la raíz del árbol de manera directa sin recorrer otros nodos, la complejidad temporal de obtener el elemento con un valor máximo es de O(1).</p>
+
+            <h1>Pop max</h1>
+            <p>Este método tiene como objetivo extraer el nodo con valor máximo de la Max heap y retornar el mismo, manteniendo a su vez las propiedades de la Max heap posterior a la extracción. La lógica para realizarlo es la siguiente:</p>
+            <ul>
+                <li>Se obtiene el "indexPath" del nodo con el índice máximo utilizando el tamaño (size) del árbol. </li>
+                <li>Se guarda el  valor del nodo máximo en una variable auxiliar.</li>
+                <li>Comienza la búsqueda del nodo con índice máximo, comenzando desde la raíz. En cada paso de la búsqueda:
+                    <ul>
+                        <li>Se extrae a través de un pop un elemento del “indexPath” para determinar hacia dónde desplazarse. La acción a realizar depende del estado del "indexPath" después de extraer un elemento.</li>
+                        <li><u>Caso 1 - indexPath no está vacío:</u>Si el "indexPath" no está vacío después del pop, esto significa que aún no se ha llegado al destino final. En este caso:
+                        <ul>
+                            <li>Si el valor extraído es par, se llama a la función de manera recursiva, pero esta vez se pasa el hijo derecho como el siguiente nodo a evaluar.</li>
+                            <li>Si el valor extraído  es impar, se llama a la función de manera recursiva, pero esta vez se pasa el hijo izquierdo como el siguiente nodo a evaluar.</li>
+                        </ul>
+                        </li>
+                        <li><u>Caso 2 - indexPath está vacío:</u>Si el "indexPath" está vacío después del pop, esto indica que se ha llegado al nodo con índice máximo. En este caso:
+                            <ul>
+                                <li>Si el valor extraído es par, se reemplaza el valor de la root por el valor del hijo derecho. El hijo derecho pasa a ser eliminado.</li>
+                                <li>Si el valor extraído es impar, se reemplaza el valor de la root por el valor del hijo izquierdo.El hijo izquierdo pasa a ser eliminado.</li>
+                                <li>Se aplica un bubble down sobre el nodo raíz. Según se explicó,  este proceso desplaza el valor recién colocado en la raíz hacia abajo, siempre y cuando aplique, en función de restablecer las propiedades e integridad de la Max heap.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Se retorna el valor del nodo raíz original que se guardó en la variable auxiliar al principio.</li>
+            </ul>
+
+            <h1>Complejidad temporal - Método Pop max</h1>
+            <p>Debido a su naturaleza y método de cálculo/desplazamiento, los métodos getIndexPath y bubbleDown tienen una complejidad temporal de O(log<sub>2</sub> (N)). </p>
+            <p>Por otra parte, el método Pop Max se desplaza a través del árbol en función de los índices contenidos en el array generado por el método getIndexPath, cuya longitud es logarítmica con respecto a la cantidad de nodos en el árbol.</p>
+            <p>Debido a ello, la complejidad temporal de hacer un pop del elemento máximo de una Max Heap es O(log<sub>2</sub> (N)).</p>
+        
+        </div>
+    </div>
+
+    <div class="lower-modal-section">
+        <div class="hline-wrap">
+            <div class="hline"></div>
+        </div>
+        <div class="interaction-wrapper">
+            <a class="back-button"[style.visibility]="curModalTab == 0 ? 'hidden' : 'visible'"
+            (click)="goPreviousPage()">&laquo; Previous</a>
+            <a class="next-button"[style.visibility]="curModalTab == 1 ? 'hidden' : 'visible'" (click)="goNextPage()">Next &raquo;</a>       
+        </div>
+    </div>
+</div>
